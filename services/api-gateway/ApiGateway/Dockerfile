@@ -3,6 +3,7 @@ WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 RUN ./mvnw dependency:go-offline
+RUN chmod +x mvnw
 COPY src ./src
 RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
