@@ -6,4 +6,4 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests -B
 EXPOSE 8083
-ENTRYPOINT ["java", "-jar", "target/*.jar"]
+ENTRYPOINT ["java", "-jar", "target/StatisticsService-0.0.1-SNAPSHOT.jar"]
