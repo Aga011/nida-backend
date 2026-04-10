@@ -1,10 +1,9 @@
 FROM eclipse-temurin:17-jdk-alpine
+RUN apk add --no-cache maven
 WORKDIR /app
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY pom.xml ./
+RUN mvn dependency:go-offline -B
 COPY src ./src
-RUN chmod +x mvnw
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests -B
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "target/*.jar"]
