@@ -4,8 +4,8 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: 
-      POSTGRES_PASSWORD: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "2003"
     ports:
       - "5432:5432"
     volumes:
@@ -150,3 +150,4 @@ services:
 
 volumes:
   postgres_data:
+
