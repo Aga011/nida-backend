@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   postgres:
     image: postgres:15-alpine
@@ -45,8 +44,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: 
-      RABBITMQ_DEFAULT_PASS: 
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "ping"]
       interval: 10s
@@ -59,6 +58,11 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    environment:
+      USER_SERVICE_URL: http://user-service:8081
+      TEST_SERVICE_URL: http://test-service:8082
+      STATISTICS_SERVICE_URL: http://statistics-service:8083
+      LEARNING_SERVICE_URL: http://learning-service:8084
     depends_on:
       postgres:
         condition: service_healthy
