@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "2003"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -15,12 +15,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
-
   kafka:
     image: confluentinc/cp-kafka:7.4.0
     depends_on:
@@ -37,7 +35,6 @@ services:
       interval: 15s
       timeout: 10s
       retries: 10
-
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
@@ -51,7 +48,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   api-gateway:
     build: ./services/api-gateway/ApiGateway
     ports:
@@ -59,7 +55,6 @@ services:
     env_file:
       - .env
     environment:
-      # Buradakı adlar Spring-in application.properties-dəki dəyişənləri birbaşa override edir
       - USER_SERVICE_URL=http://user-service:8081
       - TEST_SERVICE_URL=http://test-service:8082
       - STATISTICS_SERVICE_URL=http://statistics-service:8083
@@ -72,7 +67,6 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-
   user-service:
     build: ./services/user-service/UserService
     ports:
@@ -82,7 +76,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
   test-service:
     build: ./services/test-service/TestService
     ports:
@@ -94,7 +87,6 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-
   statistics-service:
     build: ./services/statistics-service/StatisticsService
     ports:
@@ -108,7 +100,6 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-
   learning-service:
     build: ./services/learning-service/LearningPlanService
     ports:
@@ -122,7 +113,6 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-
   notification-service:
     build: ./services/notification-service/NotificationService
     ports:
@@ -134,7 +124,6 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-
   payment-service:
     build: ./services/payment-service/PaymentService
     ports:
@@ -144,7 +133,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
   permission-service:
     build: ./services/permission-service/PermissionService
     ports:
@@ -154,8 +142,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
 volumes:
   postgres_data:
-
 
